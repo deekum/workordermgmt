@@ -7,7 +7,17 @@ const technicianSchema = mongoose.Schema({
         type:Number,
         required:true
     },
-    name: {
+    firstname: {
+        type:String,
+        required:true,
+        trim:true
+    },
+    middlename: {
+        type:String,
+        required:true,
+        trim:true
+    },
+    lastname: {
         type:String,
         required:true,
         trim:true
@@ -38,20 +48,19 @@ const technicianSchema = mongoose.Schema({
         required: true,
     },
     phone:{
-        type:Number,
-        required:[true,'Technician phone is required'],
+        type:String,
         validate:{
             validator: function(v){
-                return /\d{3}-\d{3}-\{4}/.test(v);
+                return /\d{3}-\d{3}-\d{4}/.test(v);
             },
             message: props => '${props.value} is not a valid phone number '
-        }
+        },
+        required:[true,'Technician phone is required'],
 
     },
     tokens:[{
         token:{
-            type:String,
-            required:true
+            type:String
         }
     }],
     avatar:{
