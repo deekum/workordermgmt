@@ -1,6 +1,7 @@
 const express = require('express')
 require('./db/mongoose')
 const company = require('./models/company')
+const servicer = require('./models/servicer')
 const technician = require('./models/technician')
 
 const app = express()
@@ -40,6 +41,20 @@ const port = process.env.PORT
 // }).catch((err)=>{
 //     console.log(err)
 // })
+
+//Create sample Servicer
+//const createServicer = async() => {
+//    const servicerObject = new servicer({
+//        name: 'EVRY'
+//    })
+//    await servicerObject.save()
+//}
+
+//createServicer().then(() => {
+//    console.log('Servicer created')
+//}).catch((err) => {
+//    console.log('Error', err)
+//})
 
 app.listen(port , ()=>{
     console.log('Server started at port:'+port)
