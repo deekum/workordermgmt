@@ -1,8 +1,10 @@
 const express = require('express')
+const { ObjectID } = require('mongodb')
 require('./db/mongoose')
 const company = require('./models/company')
 const servicer = require('./models/servicer')
 const technician = require('./models/technician')
+const workorder = require('./models/workorder')
 
 const app = express()
 app.use(express.json())
@@ -55,6 +57,23 @@ const port = process.env.PORT
 //}).catch((err) => {
 //    console.log('Error', err)
 //})
+
+//Create same workorder
+// const createWorkOrder = async()=>{
+//     const workOrderObject = new workorder({
+//         workorderid: '1',
+//         company: ObjectID('5f857c9881e28f2e1c49f6ad'),
+//         decription: 'AC is not working',
+//         category:'AC',
+//         customerName: 'Deepak'
+//     })
+//     await workOrderObject.save()
+// }
+// createWorkOrder().then(()=>{
+//     console.log('workOrder created')
+// }).catch((err)=>{
+//     console.log(err)
+// })
 
 app.listen(port , ()=>{
     console.log('Server started at port:'+port)

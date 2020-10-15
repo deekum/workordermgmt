@@ -69,5 +69,5 @@ const technicianSchema = mongoose.Schema({
 })
 
 //creation of technician model
-const technician = mongoose.model('technician', technicianSchema)
+const technician = mongoose.model('Technician', technicianSchema)
 module.exports = technician
