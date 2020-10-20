@@ -1,3 +1,4 @@
+const { request } = require('express')
 const express = require('express')
 const { ObjectID } = require('mongodb')
 require('./db/mongoose')
@@ -5,14 +6,17 @@ const company = require('./models/company')
 const servicer = require('./models/servicer')
 const technician = require('./models/technician')
 const workorder = require('./models/workorder')
+const workorderRouter = require('./routers/workorder')
 
 const app = express()
 app.use(express.json())
+app.use(workorderRouter)
 
 const port = process.env.PORT
 
+
 // async function createNewCompany() {
-//     const companyobject = new company({name: 'new company'})
+//     const companyobject = new company({name: 'AC company'})
 //     const result = await companyobject.save()
 //     console.log(result)
 // }

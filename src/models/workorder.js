@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
 const FKHelper = require('./helpers/FKHelper')
+const autoincrement = require('mongoose-auto-increment')
 
+const allowedStatus = ['created', 'assigned', 'scheduled', 'onsite', 'completed', 'cancelled']
+                    
 const workorderSchema = new mongoose.Schema(
     {
         workorderid:{
             type:Number,
-            required:true
+            //required:true,
+            
         },
         company:{
             type:mongoose.Schema.Types.ObjectId,
@@ -35,19 +39,28 @@ const workorderSchema = new mongoose.Schema(
         },
         customerPhone : {
             type:String,
+            required: true,
             validate:{
                 validator: function(v){
-                    return /\d{3}-\d{3}-\d{4}/.test(v);
+                    return /\d{10}/.test(v);
                 },
-                message: props => '${props.value} is not a valid phone number '
+                message: props => 'not a valid phone number '
             }
         },
         customerAddress:{
-            type:String
+            type:String,
+            required:true,
+            trim: true
         },
         status:{
             type:String,
-            default: 'Created'
+            default: 'Created',
+            validate : {
+                validator: function(value){
+                    return (allowedStatus.includes(value))
+                },
+                message: props =>'${props.value} is not a valid status.'
+            }
         },
         servicer:{
             type:mongoose.Schema.Types.ObjectId,
@@ -79,6 +92,14 @@ const workorderSchema = new mongoose.Schema(
 
     }
 )
+
+autoincrement.initialize(mongoose.connection)
+workorderSchema.plugin(autoincrement.plugin, {
+    model:'WorkOrder',
+    field: 'workorderid',
+    startAt: 1,
+    incrementBy: 1
+})
 
 const workorder = mongoose.model('WorkOrder',workorderSchema)
 module.exports = workorder
