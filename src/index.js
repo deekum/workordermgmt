@@ -6,11 +6,14 @@ const company = require('./models/company')
 const servicer = require('./models/servicer')
 const technician = require('./models/technician')
 const workorder = require('./models/workorder')
+const technicianworkOrder = require('./models/technicianWorkOrder')
 const workorderRouter = require('./routers/workorder')
+const technicianRoute = require('./routers/technicianRoute')
 
 const app = express()
 app.use(express.json())
 app.use(workorderRouter)
+app.use(technicianRoute)
 
 const port = process.env.PORT
 
@@ -78,6 +81,28 @@ const port = process.env.PORT
 // }).catch((err)=>{
 //     console.log(err)
 // })
+
+//sample testing to create technician workorder
+// const createTechnicianworkorder = async() =>{
+//     const techworkOrder = new technicianworkOrder({
+//         workorderid:1,
+//         assignedBy:"5f86e8f22e33659854c143e1",//servicer id
+//         assignedTo:1001,//technician id
+//         jobDescription:'Complaint description',
+//         jobCustomerAddress: 'Kormangala',
+//         jobCustomerPhone:'123-321-2314'
+        
+//     })
+//     await techworkOrder.save()
+// }
+
+// createTechnicianworkorder().then((err)=>{
+//     console.log('createTechnicianworkorder created')
+// }).catch((err)=>{
+//     console.log(err)
+// })
+
+
 
 app.listen(port , ()=>{
     console.log('Server started at port:'+port)

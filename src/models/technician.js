@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 require('../db/mongoose')
+const idGenerator = require('mongoose-auto-increment')
 
 const technicianSchema = mongoose.Schema({
     technicianid:{
@@ -68,6 +69,14 @@ const technicianSchema = mongoose.Schema({
     }
 })
 
+idGenerator.initialize(mongoose.connection)
+technicianSchema.plugin(idGenerator.plugin, {
+    model:'technician',
+    field: 'technicianid',
+    startAt: 1,
+    incrementBy: 1
+})
+
 //creation of technician model
-const technician = mongoose.model('Technician', technicianSchema)
+const technician = mongoose.model('technician', technicianSchema)
 module.exports = technician
