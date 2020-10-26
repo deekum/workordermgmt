@@ -8,45 +8,45 @@ const { update } = require("../models/technician")
 
 
 // Get List of technicians
-technicianRouter.get('/technician/getTechnicianList',async(req,res)=>{
+technicianRouter.get('/technician/getTechnicianList',async(request,response)=>{
     try {
 
         const tech = await Technician.find()
-        res.status(200).send(tech)
+        response.status(200).send(tech)
         
     } catch (error) {
-        res.status(400).send(error)
+        response.status(400).send(error)
     }
 })
 
 // Get Technician
-technicianRouter.get('/technician/getTechnician',async(req,res)=>{
+technicianRouter.get('/technician/getTechnician',async(request,response)=>{
     try {
-        const techId = req.body
+        const techId = request.body
         console.log(techId)
 
         const tech = await technician.findById(techId)
-        res.status(200).send(tech)
+        response.status(200).send(tech)
         
     } catch (error) {
-        res.status(400).send(error)
+        response.status(400).send(error)
     }
 })
 
 // Create Technician
-technicianRouter.post('/technician/createTechnician',async(req,res)=>{
-    const newtechnician = new Technician(req.body)
+technicianRouter.post('/technician/createTechnician',async(request,response)=>{
+    const newtechnician = new Technician(request.body)
     try {
             await newtechnician.save()
-            res.status(200).send(newtechnician)
+            response.status(200).send(newtechnician)
 
     } catch (error) {
-        res.status(400).send(error)
+        response.status(400).send(error)
     }
 })
 
 //Servicer Assign work to technician
-technicianRouter.post('/technician/assignWorkToTech',async(req,res)=>{
+technicianRouter.post('/technician/assignWorkToTech',async(request,response)=>{
     const job = new TechnicianWorkOrder(request.body)
     // const validParameters = ['workorderid','assignedBy','assignedTo','jobDescription','jobCustomerAddress','jobCustomerPhone']
     // const isValidParameters = technicianParams.every((update) =>validParameters.includes(update))
