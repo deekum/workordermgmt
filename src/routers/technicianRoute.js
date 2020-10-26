@@ -38,7 +38,7 @@ technicianRouter.post('/technician/createTechnician',async(request,response)=>{
     const newtechnician = new Technician(request.body)
     try {
             await newtechnician.save()
-            response.status(200).send(newtechnician)
+            response.status(201).send(newtechnician)
 
     } catch (error) {
         response.status(400).send(error)
