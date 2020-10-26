@@ -1,7 +1,8 @@
 const { request } = require('express')
 const express = require('express')
-const { ObjectID } = require('mongodb')
+const { ObjectID, Timestamp } = require('mongodb')
 require('./db/mongoose')
+
 const company = require('./models/company')
 const servicer = require('./models/servicer')
 const technician = require('./models/technician')
@@ -9,6 +10,7 @@ const workorder = require('./models/workorder')
 const technicianworkOrder = require('./models/technicianWorkOrder')
 const workorderRouter = require('./routers/workorder')
 const technicianRoute = require('./routers/technicianRoute')
+const loggers = require('./logger/logger')
 
 const app = express()
 app.use(express.json())
@@ -16,6 +18,10 @@ app.use(workorderRouter)
 app.use(technicianRoute)
 
 const port = process.env.PORT
+
+//Addedd winston loggers 
+loggers.console.info('Console Info Log in index')
+loggers.file.error('COnsole File log index')
 
 
 // async function createNewCompany() {
@@ -101,7 +107,6 @@ const port = process.env.PORT
 // }).catch((err)=>{
 //     console.log(err)
 // })
-
 
 
 app.listen(port , ()=>{
