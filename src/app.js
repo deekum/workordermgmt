@@ -10,16 +10,20 @@ const workorder = require('./models/workorder')
 const technicianworkOrder = require('./models/technicianWorkOrder')
 const workorderRouter = require('./routers/workorder')
 const technicianRoute = require('./routers/technicianRoute')
-const loggers = require('./logger/logger')
+const {logger, serviceLogger} = require('./logger/logger')
 
 const app = express()
 app.use(express.json())
+
+app.use(serviceLogger)
+
 app.use(workorderRouter)
 app.use(technicianRoute)
 
 //Addedd winston loggers 
-loggers.console.info('Console Info Log in index')
-loggers.file.error('COnsole File log index')
+logger.info('Sample info log.')
+logger.error('Sample error log.')
+logger.debug('Sample debug log.')
 
 
 // async function createNewCompany() {
