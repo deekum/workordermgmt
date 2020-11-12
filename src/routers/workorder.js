@@ -29,22 +29,13 @@ router.post('/createworkorder', async (request, response)=>{
 
 router.post('/updateworkorder', async (request, response)=>{
     try{
-        // const token = request.header('Authorization').replace('Bearer ','')
-        // const decode = jwt.verify(token, process.env.JWT_SECRET)
-        // const technician = await Technician.findOne({_id: decode._id})
-        // if(!technician){
-        //     logger.error('Not able to identify technician')
-        //     throw new Error('Not able to identify technician')
-        // }
-        
-
         const updates = Object.keys(request.body)
         const allowedUpdates = ['workorderid','status']
         const isValidOperation =  updates.every((item)=>{
             return allowedUpdates.includes(item)
         })
 
-        logger.debug('is Valid for input for updateworkorder:',isValidOperation)
+        logger.debug('is Valid for input for updateworkorder:'+isValidOperation)
         if(!isValidOperation){
             logger.error('Invalid request to update workorder status')
             return response.status(404).send('Invalid request to update workorder status')
@@ -100,12 +91,21 @@ router.get("/company/getworkorders/:workorderid?", async (request, response)=>{
 
 })
 
-router.get("/getallworkorders", async (request, response)=>{
+router.get("/getworkorders/:workorderid?", async (request, response)=>{
+    const workorderid = request.params.workorderid
     try{
-        const workorders = await Workorder.find().select('-_id -__v').populate({
-            path:'company',
-            select:'name -_id'
-        })   
+        let workorders
+        if(!workorderid){
+            workorders = await Workorder.find().select('-_id -__v').populate({
+                path:'company',
+                select:'name -_id'
+            })     
+        } else {
+            workorders = await Workorder.findOne({workorderid}).select('-_id -__v').populate({
+                path:'company',
+                select:'name -_id'
+            })   
+        }
         
         if(!workorders){
             logger.error('No workorder found')
