@@ -10,6 +10,7 @@ const workorder = require('./models/workorder')
 const technicianworkOrder = require('./models/technicianWorkOrder')
 const workorderRouter = require('./routers/workorder')
 const technicianRoute = require('./routers/technicianRoute')
+const servicerRouter = require('./routers/servicer')
 const {logger, serviceLogger} = require('./logger/logger')
 
 const app = express()
@@ -19,6 +20,7 @@ app.use(serviceLogger)
 
 app.use(workorderRouter)
 app.use(technicianRoute)
+app.use(servicerRouter)
 
 //Addedd winston loggers 
 logger.info('Sample info log.')
