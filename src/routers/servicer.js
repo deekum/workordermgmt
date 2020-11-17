@@ -19,7 +19,7 @@ servicerRouter.post('/createServicer', async (req, res) => {
 servicerRouter.get('/getServicer', async (req, res) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
-        const decode = jwt.verify(token, 'thisistesting')
+        const decode = jwt.verify(token, process.env.JWT_SECRET)
         const servicers = await Servicer.findOne({ _id: decode._id, 'tokens.token': token})
         if(!servicers){
             return res.status(404).send(servicers)
