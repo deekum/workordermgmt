@@ -19,7 +19,7 @@ companyRouter.post('/createCompany', async (req, res) => {
 companyRouter.get('/getCompany', async (req, res) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
-        const decode = jwt.verify(token, process.env.JWT_SECRET)0
+        const decode = jwt.verify(token, process.env.JWT_SECRET)
         const companies = await company.findOne({ _id: decode._id, 'tokens.token': token})
         if(!companies){
             return res.status(404).send(companies)
