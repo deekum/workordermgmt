@@ -124,14 +124,18 @@ router.get("/getworkorders/:workorderid?", async (request, response)=>{
 router.post('/cancelworkorder', async (request, response)=>{
     try {
         const updates = Object.keys(request.body)
-        const allowedUpdates = ['workorderid', 'status']
+        const allowedUpdates = ['workorderid', 'reason']
         const isValidOperations = updates.every((update) => allowedUpdates.includes(update))
 
         if (!isValidOperations) {
             logger.error('Invalid request to cancel the workorder')
             return response.status(404).send({ error: 'Invalid request to cancel the workorder' })
         }
-        const workorder = await Workorder.findOneAndUpdate({ 'workorderid': request.body.workorderid }, request.body, { new: true, runValidators: true })
+        if(!request.body.reason){
+            logger.error('Reason is required to cancel the workorder')
+            return response.status(404).send({ error: 'Reason is required to cancel the workorder' })
+        }
+        const workorder = await Workorder.findOneAndUpdate({ 'workorderid': request.body.workorderid }, { 'status':'cancelled' }, { new: true, runValidators: true })
         if (!workorder) {
             logger.error('No workorder found for the given id')
             return response.status(404).send({ error: 'No workorder found for the given id' })
