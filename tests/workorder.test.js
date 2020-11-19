@@ -55,3 +55,10 @@ test('should get all work orders',async()=>{
     await request(app).get('/getallworkorders').send({
     }).expect(200)
 })
+
+test('should cancel a work order',async()=>{
+    await request(app).post('/cancelworkorder').send({
+        workorderid,
+        reason: "valid reason"
+    }).expect(200)
+})
