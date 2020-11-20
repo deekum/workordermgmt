@@ -11,11 +11,11 @@ const servicerSchema = new mongoose.Schema(
         },
         servicerName: {
             type: String,
-            required: true
+            required: [true, 'Servicer Name is required'],
         },
         servicerAddress: {
             type: String,
-            required: true
+            required: [true, 'Servicer Address is required'],
         },
         servicerPhone: {
             type: String,
@@ -25,13 +25,11 @@ const servicerSchema = new mongoose.Schema(
                 },
                 message: props => '${props.value} is not a valid phone number'
             },
-            required:[true,'Servicer phone is required']
+            required:[true, 'Servicer Phone Number is required']
         },
-        tokens: [{
-            token: {
-                type: String
-            }
-        }]
+        token : {
+            type: String
+        }
     }
 )
 
@@ -46,7 +44,7 @@ servicerSchema.plugin(servicerIdAutoIncrement.plugin, {
 servicerSchema.methods.generateAuthToken = async function () {
     const servicer = this
     const token = jwt.sign({ _id: servicer._id.toString()}, process.env.JWT_SECRET)
-    servicer.tokens = servicer.tokens.concat({ token })
+    servicer.token = token
     return token
 }
 
