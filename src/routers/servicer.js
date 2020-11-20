@@ -1,6 +1,7 @@
 const express = require('express')
 const Servicer = require("../models/servicer")
 const jwt = require('jsonwebtoken')
+const {logger, serviceLogger} = require('../logger/logger')
 const servicerRouter = new express.Router()
 
 //Create Servicer
@@ -9,7 +10,7 @@ servicerRouter.post('/createServicer', async (req, res) => {
     try {
         const token = await servicerObject.generateAuthToken()
         await servicerObject.save()      
-        res.status(201).send({servicerObject, token})
+        res.status(201).send('Servicer created successfully!')
     } catch (error) {
         logger.error('Error while creating the Servicer: ', error)
         res.status(500).send(error)
@@ -21,7 +22,7 @@ servicerRouter.get('/getServicer', async (req, res) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
         const decode = jwt.verify(token, process.env.JWT_SECRET)
-        const servicers = await Servicer.findOne({ _id: decode._id, 'tokens.token': token })
+        const servicers = await Servicer.findOne({ _id: decode._id, 'token': token })
         if (!servicers) {
             logger.error('Servicer not found!')
             return res.status(404).send({ error: 'Servicer not found!' })
