@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 require('../db/mongoose')
 const jobIdGenerator = require('mongoose-auto-increment')
+const allowedStatus = [1,2,3,4,5,6]
 
 const technicianWorkOrderSchema = mongoose.Schema({
     jobid:{
@@ -47,7 +48,14 @@ const technicianWorkOrderSchema = mongoose.Schema({
     //Job Status Codes Assigned:1,Inprogress-2,on hold-3,completed-4,cancelled-5
     jobStatus:{
         type:Number,
-        default:1        
+        default:1,
+        validate:{
+            validator: function(v){
+                return allowedStatus.includes(v)
+            },
+            message: props => '${props.value} is not a valid status '
+
+        }        
     }
 })
 
